@@ -9,10 +9,10 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { name, city } = await req.json();
+    const { name, city, hearAboutUs, interests } = await req.json();
     const user = await prisma.user.update({
       where: { id: session.user.id },
-      data: { name, city },
+      data: { name, city, hearAboutUs, interests },
     });
     return NextResponse.json({ user });
   } catch {

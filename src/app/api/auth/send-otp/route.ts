@@ -16,12 +16,13 @@ export async function POST(req: Request) {
       data: { phone, code, expiresAt },
     });
 
-    const sent = await sendOTP(phone, code);
-    if (!sent) {
-      console.warn("MSG91 delivery failed, but OTP stored for dev:", code);
-    }
+    await sendOTP(phone, code);
 
-    return NextResponse.json({ success: true, message: "OTP sent" });
+    return NextResponse.json({
+      success: true,
+      message: "OTP sent",
+      ...(process.env.NODE_ENV === "development" && { devOtp: code }),
+    });
   } catch (error) {
     console.error("Send OTP error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

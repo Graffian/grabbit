@@ -37,7 +37,7 @@ export default function OnboardingPage() {
       if (!res.ok) throw new Error("Failed to save");
       await update();
       toast.success("Profile updated!");
-      router.push("/browse");
+      router.push("/onboarding/hear-about-us");
     } catch {
       toast.error("Something went wrong");
     } finally {

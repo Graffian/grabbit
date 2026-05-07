@@ -29,8 +29,13 @@ export default function LoginPage() {
         body: JSON.stringify({ phone }),
       });
       if (!res.ok) throw new Error("Failed to send OTP");
+      const data = await res.json();
       setOtpSent(true);
-      toast.success("OTP sent to your phone");
+      if (data.devOtp) {
+        toast.success(`Dev OTP: ${data.devOtp}`);
+      } else {
+        toast.success("OTP sent to your phone");
+      }
     } catch {
       toast.error("Failed to send OTP. Try again.");
     } finally {
@@ -65,22 +70,22 @@ export default function LoginPage() {
 
   if (showPhone) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center p-4">
-        <Card className="w-full max-w-md bg-white border border-gray-200 text-gray-900 shadow-lg">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white dark:from-gray-950 dark:to-indigo-950 flex items-center justify-center p-4">
+        <Card className="w-full max-w-md border-2 border-indigo-100 dark:border-indigo-900/50 bg-white dark:bg-gray-900 shadow-xl shadow-indigo-500/5">
           <CardContent className="p-8 space-y-6">
             <button
               onClick={() => { setShowPhone(false); setOtpSent(false); setOtp(""); }}
-              className="text-gray-500 hover:text-gray-700 flex items-center gap-1 text-sm"
+              className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 flex items-center gap-1 text-sm font-medium"
             >
               <ArrowLeft className="h-4 w-4" /> Back
             </button>
 
             <div className="text-center">
-              <div className="h-12 w-12 rounded-full bg-indigo-600 flex items-center justify-center mx-auto mb-4">
-                <Smartphone className="h-6 w-6 text-white" />
+              <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-500/30">
+                <Smartphone className="h-7 w-7 text-white" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900">Phone Sign In</h2>
-              <p className="text-gray-500 text-sm mt-1">Enter your phone number to receive an OTP</p>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Phone Sign In</h2>
+              <p className="text-indigo-600/70 dark:text-indigo-400/70 text-sm mt-1">Enter your phone number to receive an OTP</p>
             </div>
 
             {!otpSent ? (
@@ -91,10 +96,10 @@ export default function LoginPage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
                   maxLength={10}
-                  className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-400 text-center text-lg"
+                  className="bg-indigo-50/50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 text-center text-lg focus:border-indigo-500 focus:ring-indigo-500/20"
                 />
                 <Button
-                  className="w-full bg-indigo-600 hover:bg-indigo-700"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-500/25"
                   onClick={sendOtp}
                   disabled={loading}
                 >
@@ -103,8 +108,8 @@ export default function LoginPage() {
               </div>
             ) : (
               <div className="space-y-3">
-                <p className="text-sm text-gray-500 text-center">
-                  OTP sent to <strong className="text-gray-900">+91 {phone}</strong>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                  OTP sent to <strong className="text-indigo-600 dark:text-indigo-400">+91 {phone}</strong>
                 </p>
                 <Input
                   type="text"
@@ -112,17 +117,17 @@ export default function LoginPage() {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                   maxLength={6}
-                  className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-400 text-center text-2xl tracking-widest"
+                  className="bg-indigo-50/50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 text-center text-2xl tracking-widest focus:border-indigo-500 focus:ring-indigo-500/20"
                 />
                 <Button
-                  className="w-full bg-indigo-600 hover:bg-indigo-700"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-500/25"
                   onClick={verifyOtp}
                   disabled={loading}
                 >
                   {loading ? "Verifying..." : "Verify & Sign In"}
                 </Button>
                 <button
-                  className="w-full text-sm text-indigo-600 hover:text-indigo-700"
+                  className="w-full text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium"
                   onClick={() => { setOtpSent(false); setOtp(""); }}
                 >
                   Change phone number
@@ -136,7 +141,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white dark:from-gray-950 dark:to-indigo-950 flex items-center justify-center p-4">
       <SignInCard
         onGoogleSignIn={() => signIn("google", { callbackUrl: "/onboarding" })}
         onPhoneSignIn={() => setShowPhone(true)}
