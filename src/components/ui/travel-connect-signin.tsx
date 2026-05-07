@@ -189,7 +189,7 @@ interface SignInCardProps {
   showPhoneOption?: boolean;
 }
 
-const SignInCard = ({ onGoogleSignIn, showPhoneOption = true }: SignInCardProps) => {
+const SignInCard = ({ onGoogleSignIn, onPhoneSignIn, showPhoneOption = true }: SignInCardProps) => {
   return (
     <div className="flex w-full h-full items-center justify-center">
       <motion.div
@@ -271,10 +271,7 @@ const SignInCard = ({ onGoogleSignIn, showPhoneOption = true }: SignInCardProps)
                 <div>
                   <button
                     className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg p-3 hover:bg-gray-50 transition-all duration-300 text-gray-700 text-sm"
-                    onClick={() => {
-                      const el = document.getElementById("phone-section");
-                      el?.scrollIntoView({ behavior: "smooth" });
-                    }}
+                    onClick={onPhoneSignIn}
                   >
                     <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />

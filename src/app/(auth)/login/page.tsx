@@ -139,6 +139,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <SignInCard
         onGoogleSignIn={() => signIn("google", { callbackUrl: "/onboarding" })}
+        onPhoneSignIn={() => setShowPhone(true)}
         showPhoneOption={true}
       />
     </div>
